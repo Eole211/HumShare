@@ -11,6 +11,7 @@ use Yii;
  * The followings are the available columns in table 'share_category':
  * @property integer $id
  * @property string $name
+ *test commit
  */
 
 class Category extends \humhub\modules\content\components\ContentActiveRecord implements \humhub\modules\search\interfaces\Searchable
