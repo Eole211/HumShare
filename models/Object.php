@@ -8,10 +8,12 @@ use Yii;
  * This is the model class for table "share_object".
  *
  * @package humhub.modules.share.models
- * The followings are the available columns in table 'linklist_link':
+ * The followings are the available columns in table 'share_object':
  * @property integer $id
- * @property integer $userId
+ * @property integer $user
  * @property string $name
+ * @property string $description
+ * @property integer $category
  */
 
 class Object extends \humhub\modules\content\components\ContentActiveRecord implements \humhub\modules\search\interfaces\Searchable
@@ -23,7 +25,9 @@ class Object extends \humhub\modules\content\components\ContentActiveRecord impl
     {
         return array(
             'name' => $this->name,
-            'userId' => $this->userId
+            'user' => $this->user,
+            'description'=>$this->description,
+            'category'=>$this->category
         );
     }
 

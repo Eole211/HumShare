@@ -7,6 +7,7 @@ class uninstall extends \humhub\components\Migration
     {
 
         $this->dropTable('share_object');
+        $this->dropTable('share_category');
     }
 
     public function down()

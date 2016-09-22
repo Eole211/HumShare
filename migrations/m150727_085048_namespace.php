@@ -10,6 +10,7 @@ class m150727_085048_namespace extends Migration
     public function up()
     {
         $this->renameClass('Object', Object::className());
+        $this->renameClass('Category', Object::className());
     }
 
     public function down()

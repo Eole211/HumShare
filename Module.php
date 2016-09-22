@@ -42,8 +42,6 @@ class Module extends ContentContainerModule
     }
 
 
-
-
     /**
      * On build of a Space Navigation, check if this module is enabled.
      * When enabled add a menu item
@@ -62,6 +60,21 @@ class Module extends ContentContainerModule
                 'isActive' => (Yii::$app->controller->module && Yii::$app->controller->module->id == 'share')
             ));
         }
+    }
+
+    /**
+     * To know if the user is allowed to do things
+     * @inheritdoc
+     */
+    public function getPermissions($contentContainer = null)
+    {
+        if ($contentContainer instanceof \humhub\modules\space\models\Space) {
+            return [
+                new permissions\CreateCategory()
+            ];
+        }
+
+        return [];
     }
 
 
