@@ -18,6 +18,7 @@ use humhub\modules\user\models\Profile;
 
 humhub\modules\share\Assets::register($this);
 
+if($this->context->canCreateCategory()){
 ?>
 <div class="panel-body">
                 <div class="media">
@@ -29,5 +30,13 @@ humhub\modules\share\Assets::register($this);
                     }
                     ?>
                     </ul>
+
+<?php
+                    echo "<a href='".
+            $contentContainer->createUrl('/share/share/add-category').
+                    "'>Ajouter une catégorie
+                    </a>";
+                    ?>
                    </div>
     </div>
+<?php }

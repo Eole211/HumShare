@@ -37,6 +37,42 @@ class ShareController extends ContentContainerController
     }
 
     /**
+     * Action that renders the view to add or edit a category.<br />
+     * The request has to provide the id of the category to edit in the url parameter 'category_id'.
+     * @see views/share/addCategory.php
+     * @throws HttpException 404, if the logged in User misses the rights to access this view.
+     */
+    public function actionAddCategory()
+    {
+        if(!$this->canCreateCategory()){
+            throw new HttpException(404, Yii::t('ShareModule.base', 'You miss the rights to edit this category!'));
+        }
+
+        $category_id = (int) Yii::$app->request->get('category_id');
+        $category = Category::find()->contentContainer($this->contentContainer)->where(array('share_category.id' => $category_id))->one();
+
+        if ($category == null) {
+            $category = new Category;
+            $category->content->container = $this->contentContainer;
+        }
+
+        //We get the post parameters
+        $post=Yii::$app->request->post();
+
+        //If we do have a Category, we check it and save it, then redirection to index
+        if(isset($post['Category'])) {
+            $category->name = $post["Category"]['name'];
+            if ($category->validate() && $category->save()) {
+                $this->redirect($this->contentContainer->createUrl('/share/share/index'));
+            }
+        }
+
+        return $this->render('addCategory', array(
+            'category' => $category,
+        ));
+    }
+
+    /**
      * Action that deletes a given category.<br />
      * The request has to provide the id of the link to delete in the url parameter 'link_id'.
      * @throws HttpException 404, if the logged in User misses the rights to access this view.
@@ -54,10 +90,6 @@ class ShareController extends ContentContainerController
             throw new HttpException(404, Yii::t('LinklistModule.base', 'Erreur avec le vomit de paul'));
         }
     }
-
-
-
-
 
 
     /* PERMISSIONS */
