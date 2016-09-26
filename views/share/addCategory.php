@@ -1,6 +1,6 @@
 <?php
 
-humhub\modules\linklist\Assets::register($this);
+humhub\modules\share\Assets::register($this);
 use humhub\modules\share\models\category;
 use humhub\compat\CActiveForm;
 use yii\helpers\Html;

@@ -18,8 +18,9 @@ use humhub\modules\user\models\Profile;
 
 humhub\modules\share\Assets::register($this);
 ?>
-
-<div >
+<div class="panel panel-default">
+    <div class="panel-heading"><strong>HumShare</strong><br>Le module pour partager des trucs</div>
+    <div class="panel-body">
     <a href="<?php echo $contentContainer->createUrl('/share/share/add-object')?>">NOUVEAU VOMIT</a>
     <br><br>
 
@@ -32,9 +33,8 @@ humhub\modules\share\Assets::register($this);
 
              $user=User::find()->where(['id' => $obj->user])->one();
              $profil=Profile::find()->where(['user_id' => $obj->user])->one();
+             echo "<tr><td>$obj->name</td><td style='padding-left: 10px'>";
 
-
-            echo "<tr><td>$obj->name</td><td style='padding-left: 10px'>";
              if($user!=null && $profil!=null) {
                  //var_dump($user);
                  echo "<a href='index.php?r=user%2Fprofile%2Fhome&uguid={$user->guid}'>{$profil->firstname} {$profil->lastname}</a>";
@@ -51,5 +51,5 @@ humhub\modules\share\Assets::register($this);
            </a>";
     }
     ?>
-
-</div>
+        </div>
+    </div>
