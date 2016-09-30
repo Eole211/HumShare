@@ -36,8 +36,11 @@ class ShareController extends ContentContainerController
         ]);
     }
 
+
+
+
     /**
-     * Action that renders the view to add or edit a category.<br />
+     * Action that renders the view to add or edut a category.<br />
      * The request has to provide the id of the category to edit in the url parameter 'category_id'.
      * @see views/share/addCategory.php
      * @throws HttpException 404, if the logged in User misses the rights to access this view.
@@ -45,7 +48,7 @@ class ShareController extends ContentContainerController
     public function actionAddCategory()
     {
         if(!$this->canCreateCategory()){
-            throw new HttpException(404, Yii::t('ShareModule.base', 'You miss the rights to edit this category!'));
+            throw new HttpException(404, "Vous n'avez pas les droits pour éditer les catégories, sacripant !");
         }
 
         $category_id = (int) Yii::$app->request->get('category_id');
@@ -63,7 +66,7 @@ class ShareController extends ContentContainerController
         if(isset($post['Category'])) {
             $category->name = $post["Category"]['name'];
             if ($category->validate() && $category->save()) {
-                $this->redirect($this->contentContainer->createUrl('/share/share/index'));
+                $this->redirect($this->contentContainer->createUrl('/share/share/edit-categories'));
             }
         }
 
@@ -72,11 +75,33 @@ class ShareController extends ContentContainerController
         ));
     }
 
+
     /**
      * Action that deletes a given category.<br />
-     * The request has to provide the id of the link to delete in the url parameter 'link_id'.
+     * The request has to provide the id of the category to delete in the url parameter 'category_id'.
      * @throws HttpException 404, if the logged in User misses the rights to access this view.
      */
+    public function actionDeleteCategory()
+    {
+        if(!$this->canCreateCategory()){
+            throw new HttpException(404, "Vous n'avez pas les droits pour éditer les catégories, sacripant !" );
+        }
+
+
+        $category_id = (int) Yii::$app->request->get('category_id');
+        $category = Category::find()->contentContainer($this->contentContainer)->where(array('share_category.id' => $category_id))->one();
+
+        if ($category == null) {
+            throw new HttpException(404, "La catégorie demandée est introuvable, et c'est bien dommage");
+        }
+
+        $category->delete();
+
+        $this->redirect($this->contentContainer->createUrl('/share/share/edit-categories    '));
+    }
+
+
+
     public function actionAddObject()
     {
         $o=new Object();

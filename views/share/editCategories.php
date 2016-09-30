@@ -18,25 +18,39 @@ use humhub\modules\user\models\Profile;
 
 humhub\modules\share\Assets::register($this);
 
-if($this->context->canCreateCategory()){
-?>
-<div class="panel-body">
-                <div class="media">
-                    <ul>
+if ($this->context->canCreateCategory()) {
+    ?>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="media">
+                <table>
                     <?php
                     //Show All categories
-                    foreach($categories as $cat){
-                        echo "<li>".$cat->name."</li>";
+                    foreach ($categories as $cat) {
+                        //Name of the category
+                        echo "<tr><td>" . $cat->name . "</td>" .
+
+                            //EDIT Button
+                            "<td><a href='" . $contentContainer->createUrl('/share/share/add-category', ['category_id' => $cat->id]) . "'>
+                       <button style='height:20px'>éditer</button></a></td>" .
+
+                            //DELETE Button
+                            "<td><a href='" . $contentContainer->createUrl('/share/share/delete-category', ['category_id' => $cat->id]) . "'>
+                       <button style='height:20px;color:white;background-color:red'>supprimer</button></a></td>
+                       </tr>";
                     }
                     ?>
-                    </ul>
+                </table>
+                <?php
 
-<?php
-                    echo "<a href='".
-            $contentContainer->createUrl('/share/share/add-category').
-                    "'>Ajouter une catégorie
+                //Add a category Button
+                echo "<a href='" .
+                    $contentContainer->createUrl('/share/share/add-category') .
+                    "'><button ><strong>Ajouter une catégorie</strong></button>
                     </a>";
-                    ?>
-                   </div>
+                ?>
+            </div>
+        </div>
     </div>
+
 <?php }
