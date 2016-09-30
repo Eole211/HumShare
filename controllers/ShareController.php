@@ -78,7 +78,7 @@ class ShareController extends ContentContainerController
 
     public function actionAddObject()
     {
-        if(!$this->canCreateCategory()){
+        if(!$this->canCreateObject()){
             throw new HttpException(404, "Vous n'avez pas le droit d'ajouter des trucs à partager!" );
         }
 
@@ -86,7 +86,7 @@ class ShareController extends ContentContainerController
         $object = Object::find()->contentContainer($this->contentContainer)->where(array('share_object.id' => $object_id))->one();
 
         if ($object == null) {
-            $object = new Category;
+            $object = new Object();
             $object->content->container = $this->contentContainer;
         }
 

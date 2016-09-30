@@ -10,6 +10,8 @@ use yii\helpers\Html;
  *  * @var Category[] $categories
  */
 
+
+
 ?>
 
 
@@ -32,10 +34,16 @@ use yii\helpers\Html;
             <?php echo $form->labelEx($object, 'name'); ?>
             <?php echo $form->textField($object, 'name', array('class' => 'form-control')); ?>
 
-            <?php echo $form->labelEx($object, 'category'); ?>
+            <?php
+            //Formating the categories into a simple array (id=>name) for the dropdown
+            $catDropArray=array();
+            foreach($categories as $cat){
+                $catDropArray[$cat->id]=$cat->name;
+            }
 
-
-            <?php echo $form->field($object,'category')->dropDownList([1=>'test',2=>'bites']); ?>
+            //Category choice dropdown
+                echo $form->field($object,'category')->dropDownList($catDropArray)->label('Catégorie');
+            ?>
 
             <?php echo $form->error($object, 'name'); ?>
         </div>

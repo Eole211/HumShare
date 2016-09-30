@@ -13,7 +13,7 @@ use humhub\modules\space\models\Space;
 /**
  * CreateTask Permission
  */
-class CreateCategory extends \humhub\libs\BasePermission
+class CreateObject extends \humhub\libs\BasePermission
 {
 
     /**
