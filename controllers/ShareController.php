@@ -95,12 +95,15 @@ class ShareController extends ContentContainerController
 
         //If we do have an Object, we check it and save it, then redirection to index
         if(isset($post['Object'])) {
-            /*
-            $object->name = $post["Category"]['name'];
+
+            $object->name = $post["Object"]['name'];
+            $object->description = $post["Object"]['description'];
+            $object->category= $post["Object"]['category'];
+            $object->user=Yii::$app->user->id;
             if ($object->validate() && $object->save()) {
-                $this->redirect($this->contentContainer->createUrl('/share/share/edit-categories'));
+                $this->redirect($this->contentContainer->createUrl('/share/share/index'));
             }
-            */
+
         }
 
         return $this->render('addObject', array(

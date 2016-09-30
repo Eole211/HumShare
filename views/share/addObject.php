@@ -43,6 +43,10 @@ use yii\helpers\Html;
 
             //Category choice dropdown
                 echo $form->field($object,'category')->dropDownList($catDropArray)->label('Catégorie');
+
+           echo $form->labelEx($object, 'Description');
+           echo $form->textArea($object, 'description', array('id' => 'description', 'style' => 'height:350px;padding:10px', 'rows' => '15', 'placeholder' => "La description de votre truc"));
+           echo humhub\widgets\MarkdownEditor::widget(array('fieldId' => 'description'));
             ?>
 
             <?php echo $form->error($object, 'name'); ?>

@@ -21,7 +21,7 @@ humhub\modules\share\Assets::register($this);
 <div class="panel panel-default">
     <div class="panel-heading"><strong>HumShare</strong><br>Le module pour partager des trucs</div>
     <div class="panel-body">
-    <a href="<?php echo $contentContainer->createUrl('/share/share/add-object')?>">NOUVEAU VOMIT</a>
+
     <br><br>
 
     <table>
@@ -40,20 +40,17 @@ humhub\modules\share\Assets::register($this);
                  echo "<a href='index.php?r=user%2Fprofile%2Fhome&uguid={$user->guid}'>{$profil->firstname} {$profil->lastname}</a>";
              }
              echo "</td></tr>";
-
         } ?>
     </table>
     <?php
     if($this->context->canCreateCategory()){
         echo "<a href='".
             $contentContainer->createUrl('/share/share/edit-categories').
-            "'>Modifier catégories
-           </a><br>".
+            "'><button> Modifier catégories</button></a>
+            <br>".
             "<a href='".
             $contentContainer->createUrl('/share/share/add-object').
-            "'>Ajouter un trucs à partager
-           </a><br>"
-        ;
+            "'><button>Ajouter un trucs à partager</button></a><br>";
     }
     ?>
         </div>
