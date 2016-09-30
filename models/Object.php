@@ -39,4 +39,13 @@ class Object extends \humhub\modules\content\components\ContentActiveRecord impl
         return 'share_object';
     }
 
+    /**
+     * @param $contCont
+     * @param $category
+     * @return Object[]
+     */
+    public static function fromCategory($contCont,$category){
+        return Object::find()->contentContainer($contCont)->where(array('share_object.category' => $category))->all();
+    }
+
 }

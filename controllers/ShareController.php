@@ -95,7 +95,6 @@ class ShareController extends ContentContainerController
 
         //If we do have an Object, we check it and save it, then redirection to index
         if(isset($post['Object'])) {
-
             $object->name = $post["Object"]['name'];
             $object->description = $post["Object"]['description'];
             $object->category= $post["Object"]['category'];
@@ -141,24 +140,29 @@ class ShareController extends ContentContainerController
     }
 
 
-/*
-    public function actionAddObject()
-    {
-        if(!$this->canCreateObject()){
-            throw new HttpException(404, "Vous n'avez pas le droit d'ajouter des trucs à partager !" );
-        }
-        $o=new Object();
-        $o->content->setContainer($this->contentContainer);
-        $o->name="Le vomit de Paul Gatellier";
-        $o->user=Yii::$app->user->id;
-        if($o->save()){
-            return $this->redirect($this->contentContainer->createUrl('/share/share'));
-        }
-        else{
-            throw new HttpException(404, Yii::t('LinklistModule.base', 'Erreur avec le vomit de paul'));
-        }
+
+public function actionAllObjects()
+{
+    //We get the post parameters
+    $post=Yii::$app->request->post();
+    if(isset($post['Object'])) {
+        return $this->render('allObjects',[
+            'contentContainer' => $this->contentContainer,
+            'categories'=> Category::getAll($this->contentContainer),
+            'categoryId' => $post["Object"]["category"],
+            'objects' => Object::fromCategory($this->contentContainer,$post["Object"]["category"])
+        ]);
     }
-*/
+
+else
+    return $this->render('allObjects',[
+        'contentContainer' => $this->contentContainer,
+        'categories'=> Category::getAll($this->contentContainer)
+    ]);
+
+
+}
+
 
     /* PERMISSIONS */
     /**

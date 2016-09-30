@@ -30,7 +30,6 @@ humhub\modules\share\Assets::register($this);
 
 
          foreach($objects as $obj){
-
              $user=User::find()->where(['id' => $obj->user])->one();
              $profil=Profile::find()->where(['user_id' => $obj->user])->one();
              echo "<tr><td>$obj->name</td><td style='padding-left: 10px'>";
@@ -44,13 +43,21 @@ humhub\modules\share\Assets::register($this);
     </table>
     <?php
     if($this->context->canCreateCategory()){
-        echo "<a href='".
+        echo
+            //Boutton modify categories
+            "<a href='".
             $contentContainer->createUrl('/share/share/edit-categories').
             "'><button> Modifier catégories</button></a>
             <br>".
+
+            //Boutton add an Object
             "<a href='".
             $contentContainer->createUrl('/share/share/add-object').
-            "'><button>Ajouter un trucs à partager</button></a><br>";
+            "'><button>Ajouter un trucs à partager</button></a><br>".
+
+            "<a href='".
+            $contentContainer->createUrl('/share/share/all-objects').
+            "'><button>Tout les objets</button></a><br>";
     }
     ?>
         </div>
