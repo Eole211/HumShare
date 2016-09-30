@@ -48,7 +48,12 @@ humhub\modules\share\Assets::register($this);
         echo "<a href='".
             $contentContainer->createUrl('/share/share/edit-categories').
             "'>Modifier catégories
-           </a>";
+           </a><br>".
+            "<a href='".
+            $contentContainer->createUrl('/share/share/add-object').
+            "'>Ajouter un trucs à partager
+           </a><br>"
+        ;
     }
     ?>
         </div>

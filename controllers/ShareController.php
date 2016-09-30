@@ -76,6 +76,43 @@ class ShareController extends ContentContainerController
     }
 
 
+    public function actionAddObject()
+    {
+        if(!$this->canCreateCategory()){
+            throw new HttpException(404, "Vous n'avez pas le droit d'ajouter des trucs à partager!" );
+        }
+
+        $object_id = (int) Yii::$app->request->get('object_id');
+        $object = Object::find()->contentContainer($this->contentContainer)->where(array('share_object.id' => $object_id))->one();
+
+        if ($object == null) {
+            $object = new Category;
+            $object->content->container = $this->contentContainer;
+        }
+
+        //We get the post parameters
+        $post=Yii::$app->request->post();
+
+        //If we do have an Object, we check it and save it, then redirection to index
+        if(isset($post['Object'])) {
+            /*
+            $object->name = $post["Category"]['name'];
+            if ($object->validate() && $object->save()) {
+                $this->redirect($this->contentContainer->createUrl('/share/share/edit-categories'));
+            }
+            */
+        }
+
+        return $this->render('addObject', array(
+            'object' => $object,
+            'categories' => Category::getAll($this->contentContainer)
+        ));
+    }
+
+
+
+
+
     /**
      * Action that deletes a given category.<br />
      * The request has to provide the id of the category to delete in the url parameter 'category_id'.
@@ -101,9 +138,12 @@ class ShareController extends ContentContainerController
     }
 
 
-
+/*
     public function actionAddObject()
     {
+        if(!$this->canCreateObject()){
+            throw new HttpException(404, "Vous n'avez pas le droit d'ajouter des trucs à partager !" );
+        }
         $o=new Object();
         $o->content->setContainer($this->contentContainer);
         $o->name="Le vomit de Paul Gatellier";
@@ -115,15 +155,24 @@ class ShareController extends ContentContainerController
             throw new HttpException(404, Yii::t('LinklistModule.base', 'Erreur avec le vomit de paul'));
         }
     }
-
+*/
 
     /* PERMISSIONS */
     /**
-     * @return boolean can manage wiki sites?
+     * @return boolean can manage categories?
      */
     public function canCreateCategory()
     {
         return $this->contentContainer->permissionManager->can(new \humhub\modules\share\permissions\CreateCategory());
+    }
+
+    /* PERMISSIONS */
+    /**
+     * @return boolean can add object?
+     */
+    public function canCreateObject()
+    {
+        return $this->contentContainer->permissionManager->can(new \humhub\modules\share\permissions\CreateObject());
     }
 
 
