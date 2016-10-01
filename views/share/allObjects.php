@@ -1,8 +1,8 @@
 <?php
 
 humhub\modules\share\Assets::register($this);
-use humhub\modules\share\models\category;
-use humhub\modules\share\models\object;
+use humhub\modules\share\models\Category;
+use humhub\modules\share\models\Object;
 use humhub\compat\CActiveForm;
 
 
