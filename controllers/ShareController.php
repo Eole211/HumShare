@@ -136,7 +136,7 @@ class ShareController extends ContentContainerController
 
         $category->delete();
 
-        $this->redirect($this->contentContainer->createUrl('/share/share/edit-categories    '));
+        $this->redirect($this->contentContainer->createUrl('/share/share/edit-categories'));
     }
 
 
