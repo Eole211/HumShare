@@ -15,7 +15,6 @@ use Yii;
  * @property string $description
  * @property integer $category
  */
-
 class Object extends \humhub\modules\content\components\ContentActiveRecord implements \humhub\modules\search\interfaces\Searchable
 {
     /**
@@ -26,8 +25,8 @@ class Object extends \humhub\modules\content\components\ContentActiveRecord impl
         return array(
             'name' => $this->name,
             'user' => $this->user,
-            'description'=>$this->description,
-            'category'=>$this->category
+            'description' => $this->description,
+            'category' => $this->category,
         );
     }
 
@@ -44,7 +43,8 @@ class Object extends \humhub\modules\content\components\ContentActiveRecord impl
      * @param $category
      * @return Object[]
      */
-    public static function fromCategory($contCont,$category){
+    public static function fromCategory($contCont, $category)
+    {
         return Object::find()->contentContainer($contCont)->where(array('share_object.category' => $category))->all();
     }
 

@@ -1,5 +1,6 @@
 <?php
 
+
 namespace humhub\modules\share\controllers;
 
 
@@ -8,6 +9,7 @@ use yii\web\HttpException;
 use humhub\modules\user\models\User;
 use humhub\modules\space\models\Space;
 use humhub\modules\content\components\ContentContainerController;
+use humhub\modules\space\behaviors\SpaceController;
 use humhub\modules\share\models\Object;
 use humhub\modules\share\models\Category;
 
@@ -19,6 +21,20 @@ use humhub\modules\share\models\Category;
  */
 class ShareController extends ContentContainerController
 {
+    public function beforeAction($action)
+    {
+        if (parent::beforeAction($action)) {
+            if ($this->contentContainer instanceof Space && !$this->contentContainer->isMember()) {
+                throw new HttpException(403, 'Vous devez être membre de l\'espace pour partager des trucs !');
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+
     public function actionIndex()
     {
         $objects=Object::find()->contentContainer($this->contentContainer)->all();
@@ -83,7 +99,7 @@ class ShareController extends ContentContainerController
         }
 
         $object_id = (int) Yii::$app->request->get('object_id');
-        $object = Object::find()->contentContainer($this->contentContainer)->where(array('share_object.id' => $object_id))->one();
+        $object = Object::find()->contentContainer($this->contentContainer)->where(array('share_object.id' => $object_id) )->one();
 
         if ($object == null) {
             $object = new Object();
@@ -140,28 +156,47 @@ class ShareController extends ContentContainerController
     }
 
 
+    public function actionObjectPage(){
+        $objId= (int) Yii::$app->request->get('object_id');
+        $object= Object::find()->contentContainer($this->contentContainer)->where(array('share_object.id'=>$objId))->one();
+        $category= Category::find()->contentContainer($this->contentContainer)->where(array('share_category.id'=>$object->category))->one();
+
+        return $this->render('objectPage',[
+            'contentContainer' => $this->contentContainer,
+            'object'=> $object,
+            'category'=>$category
+        ]);
+    }
 
 public function actionAllObjects()
 {
     //We get the post parameters
     $post=Yii::$app->request->post();
+    $get=Yii::$app->request->get();
+
+
     if(isset($post['Object'])) {
+        $cat=$post['Object']['category'];
+    }
+    else if(isset($get['category'])){
+        $cat=$get['category'];
+    }
+    else {
         return $this->render('allObjects',[
             'contentContainer' => $this->contentContainer,
-            'categories'=> Category::getAll($this->contentContainer),
-            'categoryId' => $post["Object"]["category"],
-            'objects' => Object::fromCategory($this->contentContainer,$post["Object"]["category"])
+            'categories'=> Category::getAll($this->contentContainer)
         ]);
     }
 
-else
-    return $this->render('allObjects',[
-        'contentContainer' => $this->contentContainer,
-        'categories'=> Category::getAll($this->contentContainer)
-    ]);
-
+        return $this->render('allObjects',[
+            'contentContainer' => $this->contentContainer,
+            'categories'=> Category::getAll($this->contentContainer),
+            'categoryId' => $cat,
+            'objects' => Object::fromCategory($this->contentContainer,$cat)
+        ]);
 
 }
+
 
 
     /* PERMISSIONS */
