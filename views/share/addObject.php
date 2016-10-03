@@ -14,8 +14,6 @@ use yii\helpers\Html;
 
 ?>
 
-
-
 <div class="panel panel-default">
         <?php if ($object->isNewRecord) : ?>
             <div class="panel-heading"><strong>Ajouter un truc partageable !</strong></div>
@@ -53,8 +51,11 @@ use yii\helpers\Html;
 
 
 
-        <?php echo Html::submitButton('Save', array('class' => 'btn btn-primary')); ?>
+        <?php echo Html::submitButton('Sauvegarder', array('class' => 'btn btn-primary')); ?>
 
+            <a href="<?php echo $contentContainer->createUrl('/share/share/index') ?>">
+        <?php echo Html::button('Annuler', array('class' => 'btn btn-default')); ?>
+            </a>
         <?php CActiveForm::end();
 
 ?>

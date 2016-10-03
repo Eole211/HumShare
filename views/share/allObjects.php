@@ -22,6 +22,7 @@ use yii\helpers\Html;
 
     //Formating the categories into a simple array (id=>name) for the dropdown
             $catDropArray=array();
+           $catDropArray[0]="Toutes les catégories";
             foreach($categories as $cat){
                 $catDropArray[$cat->id]=$cat->name;
             }
@@ -38,7 +39,6 @@ use yii\helpers\Html;
     echo $form->field($object,'category')
         ->dropDownList(
             $catDropArray,
-            //[ArrayHelper::map(User::find()->where('id' => $id)->all(), 'id', 'name')],
             ['options' =>
                 [
                     $categoryId => ['selected' => true]
@@ -53,7 +53,7 @@ use yii\helpers\Html;
 ?> <br><br><?php
 
     //Display of the objects if a category is chosen
-    if($categoryId>0&&isset($objects)){
+    if($categoryId>=0&&isset($objects)){
         if(count($objects)>0) {
             require (__DIR__.'/objectsList.php');
 

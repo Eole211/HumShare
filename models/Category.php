@@ -35,6 +35,6 @@ class Category extends \humhub\modules\content\components\ContentActiveRecord im
     }
 
     public static function getAll($contCont){
-        return Category::find()->contentContainer($contCont)->all();
+        return Category::find()->contentContainer($contCont)->orderBy(['name' => SORT_ASC])->all();
     }
 }

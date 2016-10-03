@@ -23,7 +23,7 @@ if ($this->context->canCreateCategory()) {
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="media">
-                <table>
+                <table class="share-table">
                     <?php
                     //Show All categories
                     foreach ($categories as $cat) {
