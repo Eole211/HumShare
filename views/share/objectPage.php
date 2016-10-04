@@ -78,7 +78,7 @@ else{ //otherwise it was displaying users object
     <div class="panel-body">
         Prêteur :
         <strong>
-            <?php echo "<a href='index.php?r=user%2Fprofile%2Fhome&uguid={$user->guid}'>" ?>
+            <?php echo "<a target='_blank' href='{$user->getUrl()}'>" ?>
           <?php echo "{$profile->firstname} {$profile->lastname}" ?>
             <img style="width:30px;height:30px" src=" <?php echo $user->getProfileImage()->getUrl() ?>"/>
             </a>

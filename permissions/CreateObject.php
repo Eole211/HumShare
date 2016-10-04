@@ -8,6 +8,7 @@
 
 namespace humhub\modules\share\permissions;
 
+use humhub\modules\admin\libs\HumHubAPI;
 use humhub\modules\space\models\Space;
 
 /**
