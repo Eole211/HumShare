@@ -52,7 +52,7 @@ if (count($objects) > 0) {
                 $profil = Profile::find()->where(['user_id' => $obj->user])->one();
                 echo "<td>";
                 if ($user != null && $profil != null) {
-                    echo "<a target='_blank' href='index.php?r=user%2Fprofile%2Fhome&uguid={$user->guid}'>{$profil->firstname} {$profil->lastname}</a>";
+                    echo "<a target='_blank' href='{$user->getUrl()}'>{$profil->firstname} {$profil->lastname}</a>";
                 }
                 echo "</td>";
             }?>
