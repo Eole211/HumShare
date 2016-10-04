@@ -49,16 +49,13 @@ humhub\modules\share\Assets::register($this);
                 $searchForm->terms = $terms;
             }
 
+            $searchForm->category=$categoryId;
+
             echo $form->field($searchForm, 'terms')->textInput()->input('Recherche', ['placeholder' => "Tous les trucs"])->label('Votre recherche');
 
             echo $form->field($searchForm, 'category')
                 ->dropDownList(
-                    $catDropArray,
-                    ['options' =>
-                        [
-                            $categoryId => ['selected' => true]
-                        ]
-                    ]
+                    $catDropArray
                 )->label('Catégorie');
 
             ?><div style='text-align:center'><?php
