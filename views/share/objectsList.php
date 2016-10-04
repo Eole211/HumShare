@@ -9,7 +9,12 @@ use humhub\modules\user\models\Profile;
  * Used to display a list of object
  */
 
+//parameters of the search
+isset($terms)?$searchTerms=$terms:$searchTerms=null;
+isset($categoryId)?$searchCategory=$categoryId:$searchCategory=null;
 
+
+//Do we show users names ?
 $showUsers = !(isset($noUserTd) && $noUserTd);
 
 if (count($objects) > 0) {
@@ -21,7 +26,7 @@ if (count($objects) > 0) {
             <?php
     if ($showUsers) {
         ?>
-        <th>propriétaire</th><?php
+        <th>Propriétaire</th><?php
     }
     ?>
 
@@ -29,15 +34,14 @@ if (count($objects) > 0) {
         </thead>
     <tbody>
     <?php
+
     $isAdmin = $contentContainer->permissionManager->can(new \humhub\modules\share\permissions\CreateCategory());
 
-
     foreach ($objects as $obj) :?>
-
         <tr>
             <?php
             //Object name with link to the object page
-            echo "<td><a href='" . $contentContainer->createUrl('/share/share/object-page', ['object_id' => $obj->id]) . "'>
+            echo "<td><a href='" . $contentContainer->createUrl('/share/share/object-page', ['object_id' => $obj->id ,'searchTerms'=>$searchTerms,'searchCategory'=>$searchCategory]) . "'>
                <b>$obj->name</b></a>
              </td>";
 
@@ -62,7 +66,7 @@ if (count($objects) > 0) {
 </table>
 <?php
 } else { ?>
-    <b style='color:darkred'>Aucun truc trouvé !</b>
+    <div style ='text-align:center'><b style='color:darkred'>Aucun truc trouvé !</b></div>
 <?php
 } ?>
 

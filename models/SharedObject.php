@@ -16,7 +16,7 @@ use Yii;
  * @property string $description
  * @property integer $category
  */
-class Object extends \humhub\modules\content\components\ContentActiveRecord implements \humhub\modules\search\interfaces\Searchable
+class SharedObject extends \humhub\modules\content\components\ContentActiveRecord implements \humhub\modules\search\interfaces\Searchable
 {
 
     static $wordInTitleWeight=2;
@@ -58,10 +58,10 @@ class Object extends \humhub\modules\content\components\ContentActiveRecord impl
 
     public static function search($contentContainer,$category, $terms){
         if($category==0 || $category=="0") {
-            $objects = Object::getAll($contentContainer);
+            $objects = SharedObject::getAll($contentContainer);
         }
         else{
-            $objects=Object::fromCategory($contentContainer,$category);
+            $objects=SharedObject::fromCategory($contentContainer,$category);
         }
 
         //triming space and splitting the search terms
@@ -86,11 +86,11 @@ class Object extends \humhub\modules\content\components\ContentActiveRecord impl
 
                 //Calculating weight of the objects depending of the occurence of terms in its name and description
                 $weight = 0;
-                $weight += substr_count($lowName, $terms) * Object::$sentenceInTitleWeight;
-                $weight += substr_count($lowDescr, $terms) * Object::$sentenceInDescriptionWeight;
+                $weight += substr_count($lowName, $terms) * SharedObject::$sentenceInTitleWeight;
+                $weight += substr_count($lowDescr, $terms) * SharedObject::$sentenceInDescriptionWeight;
                 foreach ($termArr as $term) {
-                    $weight += substr_count($lowName, $term) * Object::$wordInTitleWeight;
-                    $weight += substr_count($lowDescr, $term) * Object::$wordInDescriptionWeight;
+                    $weight += substr_count($lowName, $term) * SharedObject::$wordInTitleWeight;
+                    $weight += substr_count($lowDescr, $term) * SharedObject::$wordInDescriptionWeight;
                 }
 
                 if ($weight > 0) {
@@ -107,24 +107,32 @@ class Object extends \humhub\modules\content\components\ContentActiveRecord impl
             return $objectsSearched;
         }
         else{
-            return  array();
+            return SharedObject::fromCategory($contentContainer,$category);
         }
     }
 
     public static function fromCategory($contCont, $category)
     {
         if($category==0||$category=='0'){
-            return Object::getAll($contCont);
+            return SharedObject::getAll($contCont);
         }
-        return Object::find()->contentContainer($contCont)->where(array('share_object.category' => $category))->orderBy(['name' => SORT_ASC])->all();
+        return SharedObject::find()->contentContainer($contCont)->where(array('share_object.category' => $category))->orderBy(['name' => SORT_ASC])->all();
     }
 
     public static function fromUser($contCont, $userId){
-        return Object::find()->contentContainer($contCont)->where(array('share_object.user' => $userId))->orderBy(['name' => SORT_ASC])->all();
+        return SharedObject::find()->contentContainer($contCont)->where(array('share_object.user' => $userId))->orderBy(['name' => SORT_ASC])->all();
     }
 
     public static function getAll($contCont){
-        return Object::find()->contentContainer($contCont)->orderBy(['name' => SORT_ASC])->all();
+        return SharedObject::find()->contentContainer($contCont)->orderBy(['name' => SORT_ASC])->all();
+    }
+
+
+    public function rules()
+    {
+        return array(
+            [['name'], 'required','message' => "Le nom de l'objet est obligatoire!"]
+        );
     }
 
 }

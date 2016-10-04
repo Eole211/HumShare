@@ -11,7 +11,7 @@ use humhub\modules\user\models\User;
 use humhub\modules\space\models\Space;
 use humhub\modules\content\components\ContentContainerController;
 use humhub\modules\space\behaviors\SpaceController;
-use humhub\modules\share\models\Object;
+use humhub\modules\share\models\SharedObject;
 use humhub\modules\share\models\Category;
 
 /**
@@ -38,12 +38,24 @@ class ShareController extends ContentContainerController
 
     public function actionIndex()
     {
-        $post=      //We get the post parameters
+         //We get the post parameters
         $post = Yii::$app->request->post();
+        $get = Yii::$app->request->get();
+
         if(isset($post['SearchForm'])){
-            $terms=$post['SearchForm']['terms'];
-            $category=$post['SearchForm']['category'];
-            $objects=Object::search($this->contentContainer,$category,$terms);
+            $get=$post;
+        }
+
+      if(isset($get['SearchForm'])){
+            if(isset($get['SearchForm']['terms'])) {
+                $terms = $get['SearchForm']['terms'];
+            }
+          else {
+              $terms="";
+          }
+            $category=$get['SearchForm']['category'];
+
+            $objects=SharedObject::search($this->contentContainer,$category,$terms);
 
             return $this->render('index', [
                 'contentContainer' => $this->contentContainer,
@@ -71,11 +83,11 @@ class ShareController extends ContentContainerController
         }
 
         $object_id = (int)Yii::$app->request->get('object_id');
-        $object = Object::find()->contentContainer($this->contentContainer)->where(array('share_object.id' => $object_id))->one();
+        $object = SharedObject::find()->contentContainer($this->contentContainer)->where(array('share_object.id' => $object_id))->one();
 
         //No object in parameters : we are creating an object
         if ($object == null) {
-            $object = new Object();
+            $object = new SharedObject();
             $object->user=null;
             $object->content->container = $this->contentContainer;
         }
@@ -89,17 +101,17 @@ class ShareController extends ContentContainerController
         $post = Yii::$app->request->post();
 
         //If we do have an Object, we check it and save it, then redirection to index
-        if (isset($post['Object'])) {
-            $object->name = $post["Object"]['name'];
-            $object->description = $post["Object"]['description'];
-            $object->category = $post["Object"]['category'];
+        if (isset($post['SharedObject'])) {
+            $object->name = $post["SharedObject"]['name'];
+            $object->description = $post["SharedObject"]['description'];
+            $object->category = $post["SharedObject"]['category'];
 
             //We assign the user as the current user only if it's a new object
             if($object->user==null) {
                 $object->user = Yii::$app->user->id;
             }
 
-            //Saving in database and redirrection
+            //Saving in database and redirection
             if ($object->validate() && $object->save()) {
                 $this->redirect($this->contentContainer->createUrl('/share/share/object-page',['object_id'=>$object->id]));
             }
@@ -115,18 +127,38 @@ class ShareController extends ContentContainerController
 
     public function actionObjectPage()
     {
+        $get=Yii::$app->request->get();
+
+        //Id of the object to display
         $objId = (int)Yii::$app->request->get('object_id');
-        $object = Object::find()->contentContainer($this->contentContainer)->where(array('share_object.id' => $objId))->one();
+
+        //handling previous research
+        if(isset($get['searchCategory'])){
+            $searchCategory=$get['searchCategory'];
+        }
+        $searchTerms= (string)Yii::$app->request->get('searchTerms');
+        //var_dump(Yii::$app->request->get());
+
+
+        $object = SharedObject::find()->contentContainer($this->contentContainer)->where(array('share_object.id' => $objId))->one();
         $category = Category::find()->contentContainer($this->contentContainer)->where(array('share_category.id' => $object->category))->one();
         $user = User::find()->where(['id' => $object->user])->one();
         $profile = Profile::find()->where(['user_id' => $object->user])->one();
 
+        if(!isset($searchCategory)){
+            $searchCategory=$category->id;
+            $searchTerms=null;
+        }
+
+        //ar_dump($searchCategory);
         return $this->render('objectPage', [
             'contentContainer' => $this->contentContainer,
             'object' => $object,
             'category' => $category,
             'profile'=> $profile,
-            'user'=>$user
+            'user'=>$user,
+            'searchCategory'=>$searchCategory,
+            'searchTerms'=>$searchTerms
         ]);
     }
 
@@ -152,7 +184,7 @@ class ShareController extends ContentContainerController
             'contentContainer' => $this->contentContainer,
             'categories' => Category::getAll($this->contentContainer),
             'categoryId' => $cat,
-            'objects' => Object::fromCategory($this->contentContainer, $cat)
+            'objects' => SharedObject::fromCategory($this->contentContainer, $cat)
         ]);
 
     }
@@ -163,7 +195,7 @@ class ShareController extends ContentContainerController
         $profil = Profile::find()->where(['user_id' => $userId])->one();
         return $this->render('objectsOfUser', [
             'contentContainer' => $this->contentContainer,
-            'objects' => Object::fromUser($this->contentContainer,$userId),
+            'objects' => SharedObject::fromUser($this->contentContainer,$userId),
             'user' => $user,
             'profil'=>$profil
         ]);
@@ -178,7 +210,7 @@ class ShareController extends ContentContainerController
     public function actionDeleteObject()
     {
         $object_id = (int)Yii::$app->request->get('object_id');
-        $object = (Object)Object::find()->contentContainer($this->contentContainer)->where(array('share_object.id' => $object_id))->one();
+        $object = (Object)SharedObject::find()->contentContainer($this->contentContainer)->where(array('share_object.id' => $object_id))->one();
 
         $cat=$object->category;
 
@@ -219,7 +251,7 @@ class ShareController extends ContentContainerController
             throw new HttpException(404, "La catégorie demandée est introuvable, et c'est bien dommage");
         }
 
-        $objects = Object::fromCategory($this->contentContainer,$category_id);
+        $objects = SharedObject::fromCategory($this->contentContainer,$category_id);
         foreach($objects as $obj){
             $obj->delete();
         }

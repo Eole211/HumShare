@@ -54,9 +54,9 @@ class Module extends ContentContainerModule
         $space = $event->sender->space;
         if ($space->isModuleEnabled('share') && $space->isMember()) {
             $event->sender->addItem(array(
-                'label' => Yii::t('ShareModule.base', 'share'),
+                'label' => Yii::t('ShareModule.base', 'HumShare'),
                 'url' => $space->createUrl('/share/share'),
-                'icon' => '<i class="fa fa-link"></i>',
+                'icon' => '<i class="glyphicon glyphicon-grain" aria-hidden="true"></i> ',
                 'isActive' => (Yii::$app->controller->module && Yii::$app->controller->module->id == 'share')
             ));
         }

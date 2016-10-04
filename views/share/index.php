@@ -3,7 +3,7 @@
 use humhub\compat\CActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use humhub\modules\share\models\Object;
+use humhub\modules\share\models\SharedObject;
 use humhub\modules\share\models\Category;
 use humhub\modules\user\models\User;
 use humhub\modules\user\models\Profile;
@@ -24,29 +24,32 @@ humhub\modules\share\Assets::register($this);
 ?>
 <div class="panel panel-default">
     <div class="panel-heading"><strong>HumShare</strong><br>Partage de trucs</div>
-    <div class="panel-body" >
+    <div class="panel-body">
 
         <?php
-
         //Formatting the categories into a simple array (id=>name) for the dropdown
         $catDropArray = array();
-        $catDropArray[0]="Toutes les catégories";
+        $catDropArray[0] = "Toutes les catégories";
         foreach ($categories as $cat) {
             $catDropArray[$cat->id] = $cat->name;
         } ?>
 
-
+        <!-- Search Form -->
         <div class="form-group"> <?php
             $form = CActiveForm::begin();
-            if (!isset($categoryId)) {
+
+            //object to handle form datas and validation
+            $searchForm = new SearchForm();
+
+            //handling parameters
+            if (!isset($categoryId) || $categoryId == null) {
                 $categoryId = 0;
             }
-            $searchForm = new SearchForm();
-            if(isset($terms)) {
-                $searchForm ->terms= $terms;
+            if (isset($terms) && $terms != null) {
+                $searchForm->terms = $terms;
             }
 
-            echo $form->field($searchForm, 'terms')->label('Votre recherche');
+            echo $form->field($searchForm, 'terms')->textInput()->input('Recherche', ['placeholder' => "Tous les trucs"])->label('Votre recherche');
 
             echo $form->field($searchForm, 'category')
                 ->dropDownList(
@@ -58,51 +61,47 @@ humhub\modules\share\Assets::register($this);
                     ]
                 )->label('Catégorie');
 
-
-            echo Html::submitButton('<span class="glyphicon glyphicon-search" aria-hidden="true"></span>', array('class' => 'btn btn-primary'));
-
+            ?><div style='text-align:center'><?php
+            echo Html::submitButton('<span class="glyphicon glyphicon-search" aria-hidden="true"></span> Rechercher  ', array('class' => 'btn btn-primary', 'style'=>'width:330px;'));
+           ?> </div><?php
             CActiveForm::end();
             ?>
         </div>
-        <?php if(isset($objects)){
-                require(__DIR__ . '/objectsList.php');
+
+        <?php
+        //Show the list of objects if necessary
+        if (isset($objects)) {
+            require(__DIR__ . '/objectsList.php');
         }
         ?>
         <hr>
 
+        <!-- Buttons -->
         <div style='text-align:center'>
-
             <?php
-        echo
-            //All the objects by category
-            " <br><a href=' " .
-            $contentContainer->createUrl('/share/share/all-objects') .
-            "'>" .
-                Html::button('Tout les trucs par catégorie', array('class' => 'btn btn-default')) .
-            "</a>".
+            echo
+                //Button add an Object
+                " <a href='" .
+                $contentContainer->createUrl('/share/share/add-object') .
+                "'>" .
+                Html::button('Ajouter un trucs à partager', array('class' => 'btn btn-default')) .
 
-            //Boutton add an Object
-            " <a href='" .
-            $contentContainer->createUrl('/share/share/add-object') .
-            "'>" .
-            Html::button('Ajouter un trucs à partager', array('class' => 'btn btn-default')) .
+                //Button your objects
+                " <a href='" .
+                $contentContainer->createUrl('/share/share/objects-of-user', ['userId' => Yii::$app->user->id]) .
+                "'>" .
+                "<button class='btn btn-default'><i class='glyphicon glyphicon-user'></i> Vos trucs</button>" .
+                "</a><br>";
 
-            //Button your objects
-            " <a href='" .
-            $contentContainer->createUrl('/share/share/objects-of-user', ['userId' => Yii::$app->user->id]) .
-            "'>" .
-            Html::button('Vos trucs', array('class' => 'btn btn-default')) .
-            "</a><br>";
-
-        //Boutton modify categories, only for admins
-        if ($this->context->canCreateCategory()) {
-            echo  "<br><a href='" .
-                $contentContainer->createUrl('/share/share/edit-categories') ."' />".
-                Html::button('Modifier les catégories', array('class' => 'btn btn-danger')).
-            "</a><br>";
-        }
-        ?>
-            </div>
+            //Button modify categories, only for admins
+            if ($this->context->canCreateCategory()) {
+                echo "<br><a href='" .
+                    $contentContainer->createUrl('/share/share/edit-categories') . "' />" .
+                    Html::button('Modifier les catégories', array('class' => 'btn btn-danger')) .
+                    "</a><br>";
+            }
+            ?>
+        </div>
 
     </div>
 </div>

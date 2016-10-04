@@ -2,15 +2,15 @@
 
 use yii\db\Schema;
 use humhub\components\Migration;
-use humhub\modules\share\models\Object;
+use humhub\modules\share\models\SharedObject;
 
 class m150727_085048_namespace extends Migration
 {
 
     public function up()
     {
-        $this->renameClass('Object', Object::className());
-        $this->renameClass('Category', Object::className());
+        $this->renameClass('SharedObject', SharedObject::className());
+        $this->renameClass('Category', SharedObject::className());
     }
 
     public function down()

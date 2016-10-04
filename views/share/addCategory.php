@@ -6,6 +6,7 @@ use humhub\compat\CActiveForm;
 use yii\helpers\Html;
 
 /**
+ * View to add or edit a category
  * @var Category $category;
  */
 ?>
