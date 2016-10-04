@@ -22,8 +22,7 @@ class CreateCategory extends \humhub\libs\BasePermission
     public $defaultAllowedGroups = [
         Space::USERGROUP_OWNER,
         Space::USERGROUP_MODERATOR,
-        Space::USERGROUP_ADMIN,
-        Space::USERGROUP_MEMBER
+        Space::USERGROUP_ADMIN
     ];
     
     /**
