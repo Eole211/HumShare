@@ -272,6 +272,7 @@ class ShareController extends ContentContainerController
      */
     public function actionAddCategory()
     {
+
         if (!$this->canCreateCategory()) {
             throw new HttpException(404, "Vous n'avez pas les droits pour éditer les catégories, sacripant !");
         }
