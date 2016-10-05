@@ -1,2 +1,1 @@
-- Fix the redirection after deleting an object
 - Allow users to specify his phone number

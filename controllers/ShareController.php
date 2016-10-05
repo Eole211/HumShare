@@ -224,7 +224,7 @@ class ShareController extends ContentContainerController
 
         $object->delete();
 
-        $this->redirect($this->contentContainer->createUrl('/share/share/all-objects',['category'=>$cat]));
+        $this->redirect($this->contentContainer->createUrl('/share/share/index',['SearchForm' => ['category'=>$cat]]));
     }
 
 
