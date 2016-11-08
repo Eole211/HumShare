@@ -1,8 +1,10 @@
 
 $(function(){
-    $.getScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyD2CanRr0xmRpbfMTIFj7lOMmTI-fDUu7w",function(){
-        map_initialize($('#map_address').html());
-    });
+    if($("#map_canvas").length>0) {
+        $.getScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyD2CanRr0xmRpbfMTIFj7lOMmTI-fDUu7w", function () {
+            map_initialize($('#map_address').html());
+        });
+    }
 });
 
 
@@ -18,7 +20,8 @@ function map_initialize(address){
         navigationControl: true,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-    var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    var mapDom=document.getElementById("map_canvas");
+    var map = new google.maps.Map(mapDom, myOptions);
     if (geocoder) {
         geocoder.geocode({'address': address}, function (results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
@@ -41,10 +44,13 @@ function map_initialize(address){
                     });
 
                 } else {
-
+                    console.log("adress not found");
+                    mapDom.style.display('none');
                 }
             } else {
-                alert("Geocode was not successful for the following reason: " + status);
+                console.log("geocode unsuccessfull :"+status);
+                mapDom.style.display('none');
+                //alert("Geocode was not successful for the following reason: " + status);
             }
         });
     }

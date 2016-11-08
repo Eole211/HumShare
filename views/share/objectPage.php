@@ -81,12 +81,17 @@ if ($searchCategory >= 0) {
         <strong>
             <?php echo "<a target='_blank' href='{$user->getUrl()}'>" ?>
             <?php echo "{$profile->firstname} {$profile->lastname}" ?>
-            <img style="width:30px;height:30px" src=" <?php echo $user->getProfileImage()->getUrl() ?>"/>
+            <img class ="img-rounded" style="width:30px;height:30px" src=" <?php echo $user->getProfileImage()->getUrl() ?>"/>
             <?php echo "</a>"; ?>
         </strong>
         <br>
 
         E-mail : <?php echo "<a href='mailto:{$user->email}'>$user->email</a>"; ?>
+        <div style="padding-top: 5px">
+            <?php if (trim($object->phone) != "") { ?>
+                Téléphone : <i><?php echo $object->phone?></i>
+            <?php } ?>
+        </div>
         <div style="padding-top: 5px">
             <?php if (trim($object->address) != "") { ?>
                 Adresse de l'objet : <i id="map_address"><?php echo $object->address ?></i>
@@ -94,5 +99,6 @@ if ($searchCategory >= 0) {
                 </div>
             <?php } ?>
         </div>
+
     </div>
 </div>

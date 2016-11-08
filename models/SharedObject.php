@@ -16,6 +16,7 @@ use Yii;
  * @property string $description
  * @property integer $category
  * @property string $address
+ * @property string $phone
  */
 class SharedObject extends \humhub\modules\content\components\ContentActiveRecord implements \humhub\modules\search\interfaces\Searchable
 {

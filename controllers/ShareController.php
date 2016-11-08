@@ -106,6 +106,7 @@ class ShareController extends ContentContainerController
             $object->description = $post["SharedObject"]['description'];
             $object->category = $post["SharedObject"]['category'];
             $object->address=$post["SharedObject"]['address'];
+            $object->phone =$post["SharedObject"]['phone'];
 
             //We assign the user as the current user only if it's a new object
             if($object->user==null) {

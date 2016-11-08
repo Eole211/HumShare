@@ -51,10 +51,15 @@ use yii\helpers\Html;
             echo $form->textArea($object, 'description', array('id' => 'description', 'style' => 'height:350px;padding:10px', 'rows' => '15', 'placeholder' => "La description de votre truc"));
             echo humhub\widgets\MarkdownEditor::widget(array('fieldId' => 'description'));
             echo "<br>";
-            //Address
-            echo $form->field($object, 'address')->textInput()->label('Adresse'); ?>
 
-            <?php echo $form->error($object, 'name'); ?>
+            //Address
+            echo $form->field($object, 'address')->textInput()->label('Adresse');
+
+            //Phone
+            echo $form->field($object, 'phone')->textInput()->label('Téléphone');
+
+            //Errors if fields are not correctly filled  by the user
+            echo $form->error($object, 'name'); ?>
         </div>
 
 

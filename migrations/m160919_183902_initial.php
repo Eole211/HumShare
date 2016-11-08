@@ -12,7 +12,8 @@ class m160919_183902_initial extends yii\db\Migration
             'user' => 'int(11) DEFAULT NULL',
             'category' =>'int(11) DEFAULT NULL',
             'module' => 'int(11) DEFAULT NULL',
-            'address'=> 'text DEFAULT NULL'
+            'address'=> 'text DEFAULT NULL',
+            'phone'=> 'text DEFAULT NULL'
         ), '');
 
         $this->createTable('share_category', array(
