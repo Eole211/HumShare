@@ -20,7 +20,7 @@ $isAdmin = $contentContainer->permissionManager->can(new \humhub\modules\share\p
 
 
 //it was a search, before
-if($searchCategory>=0) {
+if ($searchCategory >= 0) {
 
     //Parameters of the search
     $searchForm = new SearchForm();
@@ -28,12 +28,11 @@ if($searchCategory>=0) {
     if (isset($searchTerms) && $searchTerms != null) {
         $searchForm->terms = $searchTerms;
     }
-    $paramBack=['SearchForm'=>$searchForm ];
-    $backUrl='/share/share/index';
-}
-else{ //otherwise it was displaying users object
-    $backUrl='/share/share/objects-of-user';
-   $paramBack=['userId'=>Yii::$app->user->id];
+    $paramBack = ['SearchForm' => $searchForm];
+    $backUrl = '/share/share/index';
+} else { //otherwise it was displaying users object
+    $backUrl = '/share/share/objects-of-user';
+    $paramBack = ['userId' => Yii::$app->user->id];
 }
 
 //var_dump($paramsBack);
@@ -42,26 +41,28 @@ else{ //otherwise it was displaying users object
 
 <div class="panel panel-default">
     <!-- Edit and delete Button -->
-    <?php if ($object->user == Yii::$app->user->id || $isAdmin):?>
-        <div style="float:right;padding: 5px"><a href="<?php echo $contentContainer->createUrl('/share/share/delete-object', ['object_id' => $object->id])?> ">
-             <?php echo  Html::button('Supprimer', array('class' => 'btn btn-danger')) ?>
+    <?php if ($object->user == Yii::$app->user->id || $isAdmin): ?>
+        <div style="float:right;padding: 5px"><a
+                href="<?php echo $contentContainer->createUrl('/share/share/delete-object', ['object_id' => $object->id]) ?> ">
+                <?php echo Html::button('Supprimer', array('class' => 'btn btn-danger')) ?>
             </a>
         </div>
-        <div style="float:right;padding: 5px"><a href="<?php echo $contentContainer->createUrl('/share/share/add-object', ['object_id' => $object->id])?> ">
-                <?php echo  Html::button('Modifier', array('class' => 'btn btn-warning')) ?>
+        <div style="float:right;padding: 5px"><a
+                href="<?php echo $contentContainer->createUrl('/share/share/add-object', ['object_id' => $object->id]) ?> ">
+                <?php echo Html::button('Modifier', array('class' => 'btn btn-warning')) ?>
             </a>
         </div>
     <?php endif ?>
     <!-- Back Button  -->
-    <div style="float:right;padding: 5px"><a href="<?php echo $contentContainer->createUrl($backUrl,$paramBack)?> ">
-            <?php echo  Html::button('Retour', array('class' => 'btn btn-default')) ?>
+    <div style="float:right;padding: 5px"><a href="<?php echo $contentContainer->createUrl($backUrl, $paramBack) ?> ">
+            <?php echo Html::button('Retour', array('class' => 'btn btn-default')) ?>
         </a>
     </div>
 
 
     <div class="panel-heading">
-        <a href="<?php echo $contentContainer->createUrl('/share/share/index', ['SearchForm' => ['category'=>$category->id]]) ?>">
-          <i> <?php echo $category->name ?></i>
+        <a href="<?php echo $contentContainer->createUrl('/share/share/index', ['SearchForm' => ['category' => $category->id]]) ?>">
+            <i> <?php echo $category->name ?></i>
         </a>
         <br>
         <strong><?php echo $object->name ?></strong></div>
@@ -70,8 +71,8 @@ else{ //otherwise it was displaying users object
         <div class="markdown-render">
             <?php echo \humhub\widgets\MarkdownView::widget(['markdown' => $object->description]); ?>
         </div>
-
     </div>
+
 </div>
 
 <div class="panel panel-default">
@@ -79,13 +80,19 @@ else{ //otherwise it was displaying users object
         Prêteur :
         <strong>
             <?php echo "<a target='_blank' href='{$user->getUrl()}'>" ?>
-          <?php echo "{$profile->firstname} {$profile->lastname}" ?>
+            <?php echo "{$profile->firstname} {$profile->lastname}" ?>
             <img style="width:30px;height:30px" src=" <?php echo $user->getProfileImage()->getUrl() ?>"/>
-            </a>
+            <?php echo "</a>"; ?>
         </strong>
-<br>
+        <br>
 
         E-mail : <?php echo "<a href='mailto:{$user->email}'>$user->email</a>"; ?>
-
+        <div style="padding-top: 5px">
+            <?php if (trim($object->address) != "") { ?>
+                Adresse de l'objet : <i id="map_address"><?php echo $object->address ?></i>
+                <div id="map_canvas" style="margin:auto;width:100%; height:300px">
+                </div>
+            <?php } ?>
+        </div>
     </div>
 </div>
