@@ -5,7 +5,7 @@ Things are sorted by category, the categories can be edited by the space adminis
 The search button allows the user to search for specific terms in the things name and description within a category (or in all categories). 
 The search button show all the things of the selected category if the user didn't filled any search term. 
 For now, the module is completely in French... 
----------------------------------------------------------------------------------------------
+
 HumShare : Un module HumHub pour partager des trucs avec vos amis, dans un espace.
 Il permet aux utilisateurs d'ajouter des trucs qu'ils veulent partager, avec éventuellement une description complète du truc aec des images, l'adresse du truc et un numéro de téléphone pour être contacté facilement.
 Les trucs sont divisés en catégories, les catégories pouvant être éditées par les administrateurs de l'espace.
