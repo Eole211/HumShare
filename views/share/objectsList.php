@@ -26,9 +26,12 @@ if (count($objects) > 0) {
             <?php
     if ($showUsers) {
         ?>
-        <th>Propriétaire</th><?php
+        <th>Propriétaire</th>
+
+        <?php
     }
     ?>
+            <th>Adresse</th>
 
         </tr>
         </thead>
@@ -40,8 +43,9 @@ if (count($objects) > 0) {
     foreach ($objects as $obj) :?>
         <tr>
             <?php
+            $objUrl=$contentContainer->createUrl('/share/share/object-page', ['object_id' => $obj->id ,'searchTerms'=>$searchTerms,'searchCategory'=>$searchCategory]) ;
             //Object name with link to the object page
-            echo "<td><a href='" . $contentContainer->createUrl('/share/share/object-page', ['object_id' => $obj->id ,'searchTerms'=>$searchTerms,'searchCategory'=>$searchCategory]) . "'>
+            echo "<td><a href='" .$objUrl. "'>
                <b>$obj->name</b></a>
              </td>";
 
@@ -55,8 +59,10 @@ if (count($objects) > 0) {
                     echo "<a target='_blank' href='{$user->getUrl()}'>{$profil->firstname} {$profil->lastname}</a>";
                 }
                 echo "</td>";
-            }?>
 
+            }
+            echo "<td><a href='{$objUrl}#map_canvas'>{$obj->address}</a></td>";
+?>
         </tr>
 
     <?php endforeach ?>
