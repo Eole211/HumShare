@@ -62,7 +62,7 @@ class ShareController extends ContentContainerController
                 'objects' => $objects,
                 'categories'=> Category::getAll($this->contentContainer),
                 'categoryId'=>$category,
-                'terms'=>$terms
+                'terms'=>$terms,
             ]);
         }
         return $this->render('index', [

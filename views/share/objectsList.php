@@ -1,6 +1,7 @@
 <?php
 use humhub\modules\user\models\User;
 use humhub\modules\user\models\Profile;
+use humhub\modules\share\models\forms\SearchForm;
 
 /**
  * @var Object[] $objects
@@ -30,6 +31,11 @@ if (count($objects) > 0) {
 
         <?php
     }
+
+    $showObjCats=isset($categoryId)&&$categoryId==0&&isset($catDropArray);
+            if($showObjCats){
+                echo "<th>Catégorie</th>";
+            }
     ?>
             <th>Adresse</th>
 
@@ -60,6 +66,14 @@ if (count($objects) > 0) {
                 }
                 echo "</td>";
 
+            }
+            if(  $showObjCats){
+                //Parameters of the search
+                $searchForm = new SearchForm();
+                $searchForm->category = $obj->category;
+                $paramCat = ['SearchForm' => $searchForm];
+                $catUrl = '/share/share/index';
+                echo "<td><a href=\"".$contentContainer->createUrl($catUrl, $paramCat)."\">{$catDropArray[$obj->category]}</a></td>";
             }
             echo "<td><a href='{$objUrl}#map_canvas'>{$obj->address}</a></td>";
 ?>
