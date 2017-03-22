@@ -1,12 +1,6 @@
 <?php
 
-humhub\modules\share\Assets::register($this);
-use humhub\modules\share\models\category;
-use humhub\modules\share\models\SharedObject;
-use humhub\compat\CActiveForm;
-use yii\helpers\Html;
-
-/**
+ /**
  * View to add or modify an object
  *
  * @var Category[] $categories
@@ -14,7 +8,12 @@ use yii\helpers\Html;
  * @var \humhub\modules\content\models\ContentContainer $contentContainer
  */
 
+use humhub\modules\share\models\category;
+use humhub\modules\share\models\SharedObject;
+use yii\widget\ActiveForm;
+use yii\helpers\Html;
 
+humhub\modules\share\Assets::register($this);
 ?>
 
 <div class="panel panel-default">
@@ -31,11 +30,11 @@ use yii\helpers\Html;
     <div class="panel-body">
         <?php
         // Form
-        $form = CActiveForm::begin();
+        $form = ActiveForm::begin();
         $form->errorSummary($object);
         ?>
         <div class="form-group">
-            <?php echo $form->field($object, 'name')->textInput()->label('Nom'); ?>
+            <?= $form->field($object, 'name')->textInput()->label('Nom'); ?>
 
             <?php
             //Formatting the categories into a simple array (id=>name) for the dropdown
@@ -63,12 +62,12 @@ use yii\helpers\Html;
         </div>
 
 
-        <?php echo Html::submitButton('Sauvegarder', array('class' => 'btn btn-primary')); ?>
+        <?= Html::submitButton('Sauvegarder', array('class' => 'btn btn-primary')); ?>
 
-        <a href="<?php echo $backUrl ?>">
-            <?php echo Html::button('Annuler', array('class' => 'btn btn-default')); ?>
+        <a href="<?= $backUrl ?>">
+            <?= Html::button('Annuler', array('class' => 'btn btn-default')); ?>
         </a>
-        <?php CActiveForm::end();
+        <?php ActiveForm::end();
 
         ?>
     </div>
