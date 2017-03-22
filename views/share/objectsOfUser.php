@@ -1,14 +1,15 @@
 <?php
 
-humhub\modules\share\Assets::register($this);
 use humhub\modules\user\models\User;
 use humhub\modules\share\models\SharedObject;
 use humhub\modules\user\models\Profile;
-use yii\bootstrap\Html;
+use yii\helper\Html;
 
-/**
+ /**
  * @param Profile $profil
  */
+
+humhub\modules\share\Assets::register($this);
 
 $noUserTd=true;
 
@@ -16,12 +17,12 @@ $noUserTd=true;
 $categoryId=-1;
 ?>
 <div class="panel panel-default">
-    <div style="float:right;padding: 5px"><a href="<?php echo $contentContainer->createUrl('/share/share/index')?> ">
-            <?php echo  Html::button('Retour', array('class' => 'btn btn-default')) ?>
+    <div style="float:right;padding: 5px"><a href="<?= $contentContainer->createUrl('/share/share/index')?> ">
+            <?= Html::button('Retour', array('class' => 'btn btn-default')) ?>
         </a>
     </div>
 
-    <div class="panel-heading"><strong>Les trucs de <?php echo $profil->firstname . " " . $profil->lastname ?></strong>
+    <div class="panel-heading"><strong>Les trucs de <?= $profil->firstname . " " . $profil->lastname ?></strong>
     </div>
     <div class="panel-body">
         <?php
