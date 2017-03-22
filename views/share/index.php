@@ -1,6 +1,6 @@
 <?php
 
-use humhub\compat\CActiveForm;
+use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use humhub\modules\share\models\SharedObject;
@@ -19,7 +19,6 @@ use humhub\modules\share\models\forms\SearchForm;
  * @var User $user
  */
 
-
 humhub\modules\share\Assets::register($this);
 ?>
 <div class="panel panel-default">
@@ -36,7 +35,7 @@ humhub\modules\share\Assets::register($this);
 
         <!-- Search Form -->
         <div class="form-group"> <?php
-            $form = CActiveForm::begin();
+            $form = ActiveForm::begin();
 
             //object to handle form datas and validation
             $searchForm = new SearchForm();
@@ -60,9 +59,8 @@ humhub\modules\share\Assets::register($this);
 
             ?><div style='text-align:center'><?php
             echo Html::submitButton('<span class="glyphicon glyphicon-search" aria-hidden="true"></span> Rechercher  ', array('class' => 'btn btn-primary', 'style'=>'width:330px;'));
-           ?> </div><?php
-            CActiveForm::end();
-            ?>
+           ?> </div>
+            <?php ActiveForm::end();?>
         </div>
 
         <?php
