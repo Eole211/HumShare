@@ -1,11 +1,10 @@
 <?php
 
-humhub\modules\share\Assets::register($this);
 use humhub\modules\share\models\forms\SearchForm;
 use humhub\modules\user\models\User;
 use humhub\modules\share\models\SharedObject;
 use humhub\modules\user\models\Profile;
-use yii\bootstrap\Html;
+use yii\helpers\Html;
 
 /**
  * @var Object $object
@@ -16,8 +15,9 @@ use yii\bootstrap\Html;
  * Used to display a list of object
  */
 
-$isAdmin = $contentContainer->permissionManager->can(new \humhub\modules\share\permissions\CreateCategory());
+humhub\modules\share\Assets::register($this);
 
+$isAdmin = $contentContainer->permissionManager->can(new \humhub\modules\share\permissions\CreateCategory());
 
 //it was a search, before
 if ($searchCategory >= 0) {
@@ -43,33 +43,33 @@ if ($searchCategory >= 0) {
     <!-- Edit and delete Button -->
     <?php if ($object->user == Yii::$app->user->id || $isAdmin): ?>
         <div style="float:right;padding: 5px"><a
-                href="<?php echo $contentContainer->createUrl('/share/share/delete-object', ['object_id' => $object->id]) ?> ">
-                <?php echo Html::button('Supprimer', array('class' => 'btn btn-danger')) ?>
+                href="<?= $contentContainer->createUrl('/share/share/delete-object', ['object_id' => $object->id]) ?> ">
+                <?= Html::button('Supprimer', array('class' => 'btn btn-danger')) ?>
             </a>
         </div>
         <div style="float:right;padding: 5px"><a
-                href="<?php echo $contentContainer->createUrl('/share/share/add-object', ['object_id' => $object->id]) ?> ">
-                <?php echo Html::button('Modifier', array('class' => 'btn btn-warning')) ?>
+                href="<?= $contentContainer->createUrl('/share/share/add-object', ['object_id' => $object->id]) ?> ">
+                <?= Html::button('Modifier', array('class' => 'btn btn-warning')) ?>
             </a>
         </div>
     <?php endif ?>
     <!-- Back Button  -->
     <div style="float:right;padding: 5px"><a href="<?php echo $contentContainer->createUrl($backUrl, $paramBack) ?> ">
-            <?php echo Html::button('Retour', array('class' => 'btn btn-default')) ?>
+            <?= Html::button('Retour', array('class' => 'btn btn-default')) ?>
         </a>
     </div>
 
 
     <div class="panel-heading">
-        <a href="<?php echo $contentContainer->createUrl('/share/share/index', ['SearchForm' => ['category' => $category->id]]) ?>">
-            <i> <?php echo $category->name ?></i>
+        <a href="<?= $contentContainer->createUrl('/share/share/index', ['SearchForm' => ['category' => $category->id]]) ?>">
+            <i> <?= $category->name ?></i>
         </a>
         <br>
-        <strong><?php echo $object->name ?></strong></div>
+        <strong><?= $object->name ?></strong></div>
     <div class="panel-body">
 
         <div class="markdown-render">
-            <?php echo \humhub\widgets\MarkdownView::widget(['markdown' => $object->description]); ?>
+            <?= \humhub\widgets\MarkdownView::widget(['markdown' => $object->description]); ?>
         </div>
     </div>
 
@@ -79,22 +79,22 @@ if ($searchCategory >= 0) {
     <div class="panel-body">
         Prêteur :
         <strong>
-            <?php echo "<a target='_blank' href='{$user->getUrl()}'>" ?>
-            <?php echo "{$profile->firstname} {$profile->lastname}" ?>
-            <img class ="img-rounded" style="width:30px;height:30px" src=" <?php echo $user->getProfileImage()->getUrl() ?>"/>
-            <?php echo "</a>"; ?>
+            <?= "<a target='_blank' href='{$user->getUrl()}'>" ?>
+            <?= "{$profile->firstname} {$profile->lastname}" ?>
+            <img class ="img-rounded" style="width:30px;height:30px" src=" <?= $user->getProfileImage()->getUrl() ?>"/>
+            <?= "</a>"; ?>
         </strong>
         <br>
 
-        E-mail : <?php echo "<a href='mailto:{$user->email}'>$user->email</a>"; ?>
+        E-mail : <?= "<a href='mailto:{$user->email}'>$user->email</a>"; ?>
         <div style="padding-top: 5px">
             <?php if (trim($object->phone) != "") { ?>
-                Téléphone : <i><?php echo $object->phone?></i>
+                Téléphone : <i><?= $object->phone?></i>
             <?php } ?>
         </div>
         <div style="padding-top: 5px">
             <?php if (trim($object->address) != "") { ?>
-                Adresse de l'objet : <i id="map_address"><?php echo $object->address ?></i>
+                Adresse de l'objet : <i id="map_address"><?= $object->address ?></i>
                 <div id="map_canvas" style="margin:auto;width:100%; height:300px">
                 </div>
             <?php } ?>
