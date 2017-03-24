@@ -8,7 +8,7 @@
 
 namespace humhub\modules\share\permissions;
 
-use yii\base\Object;
+use Yii;
 use humhub\modules\admin\libs\HumHubAPI;
 use humhub\modules\space\models\Space;
 
