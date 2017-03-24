@@ -1,14 +1,15 @@
 <?php
 
-humhub\modules\share\Assets::register($this);
-use humhub\modules\share\models\category;
-use humhub\compat\CActiveForm;
-use yii\helpers\Html;
-
-/**
+ /**
  * View to add or edit a category
  * @var Category $category;
  */
+
+use humhub\modules\share\models\category;
+use yii\widget\ActiveForm;
+use yii\helpers\Html;
+
+humhub\modules\share\Assets::register($this);
 ?>
 
 
@@ -22,7 +23,7 @@ use yii\helpers\Html;
     <div class="panel-body">
 
         <?php
-        $form = CActiveForm::begin();
+        $form = ActiveForm::begin();
         $form->errorSummary($category);
         ?>
 
@@ -35,9 +36,9 @@ use yii\helpers\Html;
         </div>
 
 
-        <?php echo Html::submitButton('Save', array('class' => 'btn btn-primary')); ?>
+        <?= Html::submitButton('Save', array('class' => 'btn btn-primary')); ?>
 
-        <?php CActiveForm::end();
+        <?php ActiveForm::end();
 
         ?>
     </div>
