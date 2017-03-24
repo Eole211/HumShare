@@ -8,6 +8,7 @@
 
 namespace humhub\modules\share\permissions;
 
+use Yii;
 use humhub\modules\space\models\Space;
 
 /**
@@ -19,17 +20,18 @@ class CreateCategory extends \humhub\libs\BasePermission
     /**
      * @inheritdoc
      */
-    public $defaultAllowedGroups = [
+    protected $defaultAllowedGroups = [
         Space::USERGROUP_OWNER,
-        Space::USERGROUP_MODERATOR,
-        Space::USERGROUP_ADMIN
+        Space::USERGROUP_ADMIN,
     ];
     
     /**
      * @inheritdoc
      */
     protected $fixedGroups = [
-        Space::USERGROUP_USER
+        Space::USERGROUP_GUEST,
+        Space::USERGROUP_OWNER,
+        Space::USERGROUP_ADMIN,
     ];
 
     /**
