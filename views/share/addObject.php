@@ -10,7 +10,7 @@
 
 use humhub\modules\share\models\category;
 use humhub\modules\share\models\SharedObject;
-use yii\widget\ActiveForm;
+use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 
 humhub\modules\share\Assets::register($this);
