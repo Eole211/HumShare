@@ -3,7 +3,7 @@
 use humhub\modules\user\models\User;
 use humhub\modules\share\models\SharedObject;
 use humhub\modules\user\models\Profile;
-use yii\helper\Html;
+use yii\helpers\Html;
 
  /**
  * @param Profile $profil
