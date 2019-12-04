@@ -1,5 +1,6 @@
-## DEPRECATED
-For an updayed version, check out [the fork of Ace2213](http://localhost:3000/)
+# Deprecated
+**This project is not maintained anymore
+For an updated version and new features, check out [the fork of Ace2213](http://localhost:3000/)**
 
 ## Description
 HumShare : Module for HumHub to share things with your friends inside a space. 
