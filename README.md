@@ -1,3 +1,6 @@
+## DEPRECATED
+For an updayed version, check out [the fork of Ace2213](http://localhost:3000/)
+
 ## Description
 HumShare : Module for HumHub to share things with your friends inside a space. 
 This module allows users to add things they wish to share. They can add a complete desciption of the thing with images, the address of the thing and a phone number to be contacted easily.
